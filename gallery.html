@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery - Sailor Nickie's Adventure</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fce4ec;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+            text-align: center;
+        }
+
+        header {
+            background-color: lightpink;
+            padding: 20px;
+            color: white;
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .gallery-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 30px;
+            flex-wrap: wrap;
+        }
+
+        .gallery-item {
+            width: 45%;
+            margin: 15px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .gallery-item img:hover {
+            transform: scale(1.1);
+        }
+
+        .caption {
+            background-color: #fff;
+            padding: 10px;
+            font-size: 1.2rem;
+            font-style: italic;
+            color: #666;
+            border-top: 2px solid lightpink;
+        }
+
+        footer {
+            background-color: lightpink;
+            color: white;
+            padding: 10px;
+            margin-top: 30px;
+        }
+
+        /* Mobile responsiveness */
+        @media (max-width: 768px) {
+            .gallery-item {
+                width: 90%;
+                margin: 10px;
+            }
+
+            header {
+                font-size: 1.5rem;
+            }
+
+            .caption {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Background Music with Controls -->
+    <audio autoplay loop controls>
+        <source src="audio.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+
+    <!-- Header -->
+    <header>
+        <em>Sailor Nickie's Gallery</em>
+    </header>
+
+    <!-- Gallery Container -->
+    <div class="gallery-container">
+        <!-- Gallery Item 1 -->
+        <div class="gallery-item">
+            <img src="young_us.jpg" alt="Meaningful Image 1">
+            <div class="caption">
+                <p>"A moment of peace in the chaos, reminding us of the beauty in every little thing."</p>
+            </div>
+        </div>
+
+        <div class="gallery-item">
+            <img src="img1.jpg" alt="Touching Image 2">
+            <div class="caption">
+                <p>"A moment captured from Nickie's journey of growth, from innocence to becoming a strong, graceful individual." – Reflecting her growth."</p>
+            </div>
+        </div>
+
+        <!-- Gallery Item 2 -->
+        <div class="gallery-item">
+            <img src="img2.jpg" alt="Touching Image 2">
+            <div class="caption">
+                <p>"The power of love and friendship transcends time and space, connecting hearts forever."</p>
+            </div>
+        </div>
+
+        <!-- Gallery Item 3 -->
+        <div class="gallery-item">
+            <img src="img3.jpg" alt="Meaningful Image 3">
+            <div class="caption">
+                <p>"In the quiet moments, we find strength we never knew we had."</p>
+            </div>
+        </div>
+
+        <!-- Gallery Item 4 -->
+        <div class="gallery-item">
+            <img src="img4.jpg" alt="Touching Image 4">
+            <div class="caption">
+                <p>"A proud and defining moment in your life when you were crowned 1st Runner-Up—an achievement earned through hard work and perseverance."</p>
+            </div>
+        </div>
+
+        <!-- Gallery Item 5 -->
+        <div class="gallery-item">
+            <img src="img5.jpg" alt="Meaningful Image 5">
+            <div class="caption">
+                <p>"Even in the darkest times, there is always light to guide us, you are there to support me always."</p>
+            </div>
+        </div>
+
+        <!-- Gallery Item 6 -->
+        <div class="gallery-item">
+            <img src="img6.jpg" alt="Touching Image 6">
+            <div class="caption">
+                <p>"Every small step we take brings us closer to our dreams."</p>
+            </div>
+        </div>
+
+        <!-- Gallery Item 7 -->
+        <div class="gallery-item">
+            <img src="img7.jpg" alt="Meaningful Image 7">
+            <div class="caption">
+                <p>"The love we give is the love we receive, multiplied endlessly."</p>
+            </div>
+        </div>
+
+        <!-- Gallery Item 8 -->
+        <div class="gallery-item">
+            <img src="img8.jpg" alt="Touching Image 8">
+            <div class="caption">
+                <p>"True friends are the family we choose, bound by memories and laughter."</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Sailor Nickie Adventure. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Hometown</title>
+    
+    <link rel="icon" type="image/icon" href="images/bontoc-seal.ico">
+    <style>
+        body {
+            font-family: sans-serif;
+            margin: 0;
+            padding: 0; 
+        }
+
+        .header {
+            text-align: center;
+            width: 100%;
+            height: 100vh;
+            position: relative; 
+            overflow: hidden;
+        }
+
+        .video-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0; 
+            overflow: hidden;
+        }
+
+        .video-container video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; 
+        }
+
+        .header::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.6); 
+            z-index: 1; 
+        }
+
+        .navbar {
+            width: 100%;
+            margin: auto;
+            padding: 35px 0; /* Adjusted padding */
+            display: flex;
+            justify-content: flex-end;
+            position: relative; 
+            z-index: 2; 
+        }
+
+        .navbar-hr {
+            width: 600px; 
+            height: 1px;
+            background-color: white; 
+            border: none;
+            position: relative; 
+            bottom: 4%; 
+            left: 55%; 
+            z-index: 3; 
+            margin: 0 auto; 
+        }
+
+        @media (max-width: 768px) {
+        .navbar ul {
+            flex-direction: column;
+            align-items: flex-start;
+            margin-top: 20px;
+        }
+
+        .navbar ul li {
+            margin: 10px 0;
+        }
+
+        .navbar-hr {
+            width: 100%;
+            left: 0;
+            margin: 20px auto;
+        }
+
+        .header button {
+            padding: 12px 35px;
+            font-size: 18px;
+        }
+        }
+
+        .navbar ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+        }
+
+        .navbar ul li {
+            position: relative;
+            margin: 0 20px;
+        }
+
+        .navbar ul li a, .navbar .menu-icon {
+            text-decoration: none;
+            color: white;
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .navbar ul li::after {
+            content: '';
+            height: 3px;
+            width: 0;
+            background: #009688;
+            position: absolute;
+            left: 0;
+            bottom: -10px;
+            transition: 0.5s;
+        }
+
+        .navbar .menu-icon {
+            font-size: 16px; 
+        }
+
+        .navbar a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            position: relative;
+        }
+
+        .navbar a::after, .navbar .menu-icon::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: lightpink;
+            transition: width .3s;
+            margin-top: 5px;
+        }
+
+        .navbar a:hover::after, .navbar .menu-icon:hover::after {
+            width: 100%;
+            transition: width .3s;
+        }
+
+        .header-content {
+            position: relative;
+            z-index: 2; 
+            top: 25%;
+            transform: none;
+        }
+
+        .header button {
+            padding: 10px 30px;
+            font-size: 16px;
+            border: 2px solid lightpink;
+            background-color: transparent;
+            color: white;
+            margin: 0 10px;
+            cursor: pointer;
+            border-radius: 25px;
+            position: relative;
+            overflow: hidden;
+            z-index: 2; 
+            transition: color 0.4s;
+        }
+
+        .header button::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: lightpink;
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.4s ease;
+            z-index: -1;
+            border-radius: 25px;
+        }
+
+        .header button:hover::before {
+            transform: scaleX(1);
+        }
+
+       
+        .header button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+        color: white;
+    }
+
+
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background-color: lightgray;
+            border-radius: 2px;
+            min-width: 16px;
+            z-index: 3;
+        }
+
+        .dropdown-content a {
+            color: white;
+            padding: 8px;
+            font-size: 12px; 
+            text-decoration: none;
+            display: block;
+            text-align: left;
+        }
+
+        .dropdown-content a:hover {
+            background-color: #575757;
+        }
+
+        .dropdown:hover .dropdown-content {
+            display: block;
+        }
+
+        footer {
+            background-color: #2f2f2f;
+            padding: 20px 0;
+            position: fixed;
+            width: 100%;
+            bottom: 0;
+            text-align: center;
+        }
+
+        footer a {
+            text-decoration: none;
+            color: #fff;
+            padding: 0 10px;
+        }
+
+        footer a :hover {
+            color: lightpink;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="header">
+        <div class="video-container">
+            <video autoplay loop muted>
+                <source src="sailormoon-vid.mp4" type="video/mp4">
+            </video>
+        </div>
+        <div class="navbar">
+            <!-- Navbar -->
+            <ul>
+                <li><a href="homepage.html" target="_self" title="home">HOME</a></li>
+                <li><a href="About.html" target="_self">About</a></li>
+
+                <li class="dropdown">
+                    <span class="menu-icon">&#9776;</span>
+                    <div class="dropdown-content">
+                        <a href="quiz.html">Quiz</a>
+                        <a href="gallery.html">Gallery</a>
+                        <a href="adventure.html">Adventures</a>
+                    </div>
+                </li>
+            </ul>
+        </div>
+        <div class="navbar-hr"></div>
+        <div class="header-content">
+            <!-- Header Section -->
+            <h1 style="font-size: 50px; margin: 0; font-weight: bold; color: white; text-align: center;">WELCOME SAILOR NICKIE!</h1>
+            <p style="font-size: 20px; margin: 20px auto; font-weight: 100; line-height: 25px; color: white;">Join the adventure as we celebrate Nickie and the magic of love and justice!</p>
+            <button onclick="document.location='adventure.html';" target="_blank">Explore</button>
+        </div>
+    </div>
+
+<footer>
+    <p style="text-align: center; color: white; font-size: 14px;">&copy; 2025 Sailor Nickie Adventure. All rights reserved.</p>
+</footer>
+</body>
+</html>

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sailor Moon Birthday Adventure</title>
+    <style>
+        body {
+            background-color: lightpink;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+            color: #333;
+        }
+
+        #adventure {
+            padding: 50px;
+            background-color: #f3f3f3;
+            text-align: center;
+            border-radius: 10px;
+            margin-top: 50px;
+        }
+
+        #story p {
+            font-size: 1.2rem;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        button {
+            padding: 12px 30px;
+            background-color: lightpink;
+            border: none;
+            border-radius: 25px;
+            color: black;
+            cursor: pointer;
+            transition: background-color 0.3s, transform 0.3s;
+            margin: 15px;
+            font-size: 1.1rem;
+        }
+
+        button:hover {
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 105, 180, 0.6);
+            color:white;
+        }
+
+        #finalSurprise {
+            margin-top: 30px;
+            font-size: 1.5rem;
+            color: #ff69b4;
+            display: none;
+        }
+
+        #giftMessage {
+            margin-top: 20px;
+            background-color: #fff0f0;
+            padding: 20px;
+            border-radius: 10px;
+            border: 1px solid #ff69b4;
+            font-weight: bold;
+            display: none;
+        }
+
+        #finalSurprise img {
+            margin-top: 20px;
+            width: 200px;
+        }
+
+        .confetti {
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 9999;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .confetti > div {
+            position: absolute;
+            top: -20px;
+            width: 10px;
+            height: 10px;
+            background-color: #ff66cc;
+            animation: fall 3s infinite;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-10px); }
+            100% { transform: translateY(100vh); }
+        }
+
+    </style>
+</head>
+<body>
+    <div class="image-container">
+        <img src="sm.png" width="100%" height="600">
+    </div>
+
+    <!-- Adventure Section -->
+    <section id="adventure">
+        <h2>Sailor Moon's Birthday Adventure!</h2>
+        <p>Help Sailor Moon and her friends on their mission. Choose your path and see where the adventure takes you!</p>
+
+        <div id="story">
+            <p>It’s a beautiful day, but suddenly, a dark force appears in the sky! Sailor Moon needs your help. What will you do?  <br> kada click huwati naay mogawas kay loading rana</p>
+
+            <button onclick="startAdventure('fight')">Fight the Dark Forces!</button>
+            <button onclick="startAdventure('hide')">Hide and wait for reinforcements.</button>
+        </div>
+
+        <!-- Challenge Sections -->
+        <div id="triviaChallenge" style="display:none;">
+            <p><strong>Trivia Challenge:</strong> What is Sailor Moon's real name?</p>
+            <button onclick="answerTrivia('incorrect')">Samantha</button>
+            <button onclick="answerTrivia('correct')">Usagi Tsukino</button>
+        </div>
+
+        <div id="memoryChallenge" style="display:none;">
+            <p><strong>Memory Challenge:</strong> Remember these Sailor Moon characters!</p>
+            <div id="characterImages">
+                <img src="sailormoon.jfif" width="50" height="50" style="visibility:hidden;">
+                <img src="sailormars.jfif" width="50" height="50" style="visibility:hidden;">
+                <img src="sailorjupiter.jfif" width="50" height="50" style="visibility:hidden;">
+            </div>
+            <button onclick="startMemoryChallenge()">Start Memory Game</button>
+        </div>
+
+        <div id="finalSurprise" style="display:none;">
+            <p>🎉 Surprise! 🎉</p>
+            <h3>Happy Birthday, Nickie!</h3>
+            <p>You've completed the adventure, and now Sailor Moon has a special gift for you!</p>
+            <img src="sailor.png" alt="Birthday Gift">
+            <p><strong>Click the gift to unveil your special surprise:</strong></p>
+            <button onclick="revealGift()">Click here!</button>
+            <div id="giftMessage" style="display:none;">
+                <p>🎁 Congratulations! You've just received a special birthday surprise! 🎉</p>
+                <p>Wishing you a magical year full of love, adventure, and happiness!</p>
+            </div>
+        </div>
+
+        <button onclick="document.location='homepage.html';" target="_blank">Back</button>
+    </section>
+
+    <!-- Confetti Container -->
+    <div id="confetti" class="confetti"></div>
+
+    <script>
+        let adventureComplete = false;
+
+        // Start the Adventure
+        function startAdventure(choice) {
+            var resultText = "";
+
+            if (choice === "fight") {
+                resultText = "You fought bravely, but the dark forces are too strong. However, Sailor Mars arrives just in time to help! Together, you defeat the enemy.";
+                document.getElementById("story").innerHTML = resultText;
+                setTimeout(() => showFirstTwist('fight'), 3000);  // 3 second delay to show twist
+            } else if (choice === "hide") {
+                resultText = "You hide and wait for reinforcements. Sailor Jupiter arrives to help, but the dark force grows stronger. You need to act fast!";
+                document.getElementById("story").innerHTML = resultText;
+                setTimeout(() => showFirstTwist('hide'), 3000);  // 3 second delay to show twist
+            }
+        }
+
+        // Show First Twist based on choice
+        function showFirstTwist(action) {
+            var twistText = "";
+            if (action === "fight") {
+                twistText = "Suddenly, the Shadow Queen casts a dark spell! You must defeat her minions before you can continue. Choose your next move!";
+                document.getElementById("story").innerHTML = twistText;
+                document.getElementById("story").innerHTML += `
+                    <button onclick="continueFight()">Fight the Minions</button>
+                    <button onclick="retreat()">Retreat to Regroup</button>
+                `;
+            } else if (action === "hide") {
+                twistText = "While waiting, you overhear a dark plot. The Shadow Queen is preparing to unleash a massive attack on the city. You must warn everyone!";
+                document.getElementById("story").innerHTML = twistText;
+                document.getElementById("story").innerHTML += `
+                    <button onclick="warnCity()">Warn the City</button>
+                    <button onclick="seekHelp()">Seek Help from Tuxedo Mask</button>
+                `;
+            }
+        }
+
+        // Continue Fight path
+        function continueFight() {
+            document.getElementById("story").innerHTML = "You fought valiantly, but the minions are overwhelming! Just then, Sailor Mercury arrives with a new plan!";
+            setTimeout(() => showSecondTwist('continueFight'), 3000);
+        }
+
+        // Retreat to Regroup path
+        function retreat() {
+            document.getElementById("story").innerHTML = "You retreat to regroup, but the Shadow Queen has discovered your location! A trap has been set!";
+            setTimeout(() => showSecondTwist('retreat'), 3000);
+        }
+
+        // Warn the City path
+        function warnCity() {
+            document.getElementById("story").innerHTML = "You warn the citizens, and they start evacuating the area. But the Shadow Queen's spell is already in place!";
+            setTimeout(() => showSecondTwist('warnCity'), 3000);
+        }
+
+        // Seek Help path
+        function seekHelp() {
+            document.getElementById("story").innerHTML = "You find Tuxedo Mask, but he is weakened from previous battles. You must help him regain strength!";
+            setTimeout(() => showSecondTwist('seekHelp'), 3000);
+        }
+
+        // Show Second Twist after Action
+        function showSecondTwist(action) {
+            var twistText = "";
+            if (action === "continueFight") {
+                twistText = "Together with Sailor Mercury, you come up with a strategy. You can now face the Shadow Queen directly!";
+                document.getElementById("story").innerHTML = twistText;
+                document.getElementById("story").innerHTML += `
+                    <button onclick="finalShowdown()">Final Showdown with Shadow Queen</button>
+                    <button onclick="prepareMore()">Prepare More</button>
+                `;
+            } else if (action === "retreat") {
+                twistText = "The Shadow Queen sends her most powerful minion after you! You must make a quick decision!";
+                document.getElementById("story").innerHTML = twistText;
+                document.getElementById("story").innerHTML += `
+                    <button onclick="fightMinion()">Fight the Minion</button>
+                    <button onclick="escape()">Escape the Trap</button>
+                `;
+            } else if (action === "warnCity") {
+                twistText = "The spell has been cast, and the city is now under a dark cloud! The only way to save it is to break the spell!";
+                document.getElementById("story").innerHTML = twistText;
+                document.getElementById("story").innerHTML += `
+                    <button onclick="breakSpell()">Break the Spell</button>
+                    <button onclick="askForHelp()">Ask for Help from Sailor Venus</button>
+                `;
+            } else if (action === "seekHelp") {
+                twistText = "With Tuxedo Mask’s strength back, he leads the charge against the Shadow Queen's forces!";
+                document.getElementById("story").innerHTML = twistText;
+                document.getElementById("story").innerHTML += `
+                    <button onclick="finalShowdown()">Final Showdown with Shadow Queen</button>
+                    <button onclick="rethinkPlan()">Rethink Your Plan</button>
+                `;
+            }
+        }
+
+        // Final Showdown - Reveal gift!
+        function finalShowdown() {
+            document.getElementById("finalSurprise").style.display = "block";
+            triggerConfetti();  // Trigger confetti effect
+        }
+
+        // Trigger Confetti
+        function triggerConfetti() {
+            const confettiContainer = document.getElementById('confetti');
+            for (let i = 0; i < 30; i++) {
+                let confetti = document.createElement('div');
+                confetti.style.left = `${Math.random() * 100}%`;
+                confetti.style.animationDelay = `${Math.random() * 2}s`;
+                confetti.style.animationDuration = `${Math.random() * 3 + 3}s`;
+                confettiContainer.appendChild(confetti);
+            }
+        }
+
+        // Reveal Gift
+        function revealGift() {
+    document.getElementById("giftMessage").style.display = "block";
+    document.getElementById("finalSurprise").innerHTML = `
+        <p>🎁 You are the real hero! Enjoy your special gift, Nickie! 🎉</p>
+        <p style="font-size: 1.2rem; color: #ff69b4;">Dear Sister,</p>
+        <p style="font-size: 1.2rem;">Happy Birthday to the most incredible sister I could ever ask for! I am so proud of you for finally achieving your dream of becoming an LPT (Licensed Professional Teacher). You've worked so hard, and it's truly an inspiration to see how far you've come!</p>
+        <p style="font-size: 1.2rem;">We've all seen the struggles and sacrifices you've made to get here, and I couldn't be happier for you. Don't let anyone bring you down with their words – basher lang sila. Keep your head high and continue chasing your dreams. You’ve shown everyone that with determination and faith, nothing is impossible!</p>
+        <p style="font-size: 1.2rem;">Life goes on, and you've already shown that you're unstoppable. Your journey has just begun, and I know you will continue to make us all proud. I can't wait to see what amazing things you will achieve in the future!</p>
+        <p style="font-size: 1.2rem;">Here's to a year filled with blessings, love, success, and endless opportunities. Keep shining, keep believing in yourself, and never stop pursuing your passions. I love you more than words can say, and I'm always here cheering you on!</p>
+    `;
+}
+
+
+    </script>
+</body>
+</html>

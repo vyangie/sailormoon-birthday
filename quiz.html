@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sailor Nickie's Quiz</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fce4ec;
+            font-family: 'Arial', sans-serif;
+            color: #333;
+        }
+
+        header {
+            text-align: center;
+            background-color: lightpink;
+            padding: 20px;
+            color: white;
+            font-size: 2rem;
+        }
+
+        .quiz-container {
+            max-width: 800px;
+            margin: 30px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .question {
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .question.active {
+            opacity: 1;
+        }
+
+        .answers {
+            margin-bottom: 20px;
+        }
+
+        .answers button {
+            display: block;
+            width: 100%;
+            padding: 12px;
+            margin: 5px 0;
+            background-color: lightpink;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .answers button:hover {
+            background-color: #ff4d7f;
+        }
+
+        .result {
+            font-size: 1.5rem;
+            margin-top: 20px;
+            color: lightpink;
+            text-align: center;
+            display: none;
+        }
+
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+
+        button {
+            padding: 12px 30px;
+            font-size: 16px;
+            border: 2px solid lightpink;
+            background-color: transparent;
+            color: black;
+            cursor: pointer;
+            border-radius: 25px;
+            transition: all 0.4s;
+        }
+
+        button:hover {
+            background-color: lightpink;
+            color: white;
+            transform: scale(1.1);
+        }
+
+        footer {
+            background-color: lightpink;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header {
+                font-size: 1.5rem;
+            }
+
+            .quiz-container {
+                padding: 15px;
+            }
+
+            .answers button {
+                font-size: 1rem;
+            }
+
+            button {
+                font-size: 14px;
+            }
+        }
+
+        /* Progress Bar */
+        #progress-bar {
+            height: 10px;
+            width: 100%;
+            background-color: #ddd;
+            margin-top: 20px;
+        }
+
+        #progress {
+            height: 100%;
+            background-color: lightpink;
+            width: 0%;
+        }
+
+        /* Timer */
+        #timer {
+            font-size: 1.2rem;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <em>Sailor Nickie's Quiz</em>
+    </header>
+
+    <!-- Timer -->
+    <div id="timer">Time left: 30s</div>
+
+    <!-- Progress Bar -->
+    <div id="progress-bar">
+        <div id="progress"></div>
+    </div>
+
+    <!-- Quiz Container -->
+    <div class="quiz-container">
+        <div class="question" id="question"></div>
+
+        <div class="answers" id="answers"></div>
+
+        <!-- Result Display -->
+        <div class="result" id="result">
+            <p>You got <span id="score">0</span> out of 5 questions correct!</p>
+            <p id="finalMessage"></p>
+            <p id="prize" style="font-weight: bold;"></p>
+        </div>
+
+        <div class="button-container">
+            <button onclick="nextQuestion()">Next Question</button>
+        </div>
+
+        <button onclick="document.location='homepage.html'">Back</button>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 Sailor Nickie Adventure. All rights reserved.</p>
+    </footer>
+
+    <audio id="correct-sound" src="correct-sound.mp3" preload="auto"></audio>
+    <audio id="wrong-sound" src="wrong-sound.mp3" preload="auto"></audio>
+
+    <script>
+        let score = 0;
+        let questionIndex = 0;
+        let timer = 10;
+        let timerId;
+
+        const questions = [
+            {
+                question: "What is Sailor Moon's real name?",
+                correctAnswer: "Usagi Tsukino",
+                answers: ["Samantha", "Usagi Tsukino", "Serena Tsukino", "Sailor Venus"]
+            },
+            {
+                question: "What is Sailor Moon's primary weapon?",
+                correctAnswer: "Moon Tiara Magic",
+                answers: ["Silver Crystal", "Moon Tiara Magic", "Crescent Beam", "Rainbow Moon Heartache"]
+            },
+            {
+                question: "Who is Sailor Moon's love interest?",
+                correctAnswer: "Tuxedo Mask",
+                answers: ["Luna", "Tuxedo Mask", "Jadeite", "Nephrite"]
+            },
+            {
+                question: "What is the name of Sailor Moon's cat?",
+                correctAnswer: "Luna",
+                answers: ["Artemis", "Luna", "Diana", "Ciel"]
+            },
+            {
+                question: "What is the name of Sailor Moon's first transformation?",
+                correctAnswer: "Moon Prism Power",
+                answers: ["Moon Prism Power", "Moon Healing Escalation", "Moon Tiara Magic", "Crescent Beam"]
+            }
+        ];
+
+        function startTimer() {
+            timerId = setInterval(function() {
+                if (timer > 0) {
+                    timer--;
+                    document.getElementById('timer').textContent = `Time left: ${timer}s`;
+                } else {
+                    clearInterval(timerId);
+                    alert('Time is up!');
+                    nextQuestion();
+                }
+            }, 1000);
+        }
+
+        function resetTimer() {
+            clearInterval(timerId);
+            timer = 10;
+            startTimer();
+        }
+
+        function updateProgressBar() {
+            const progress = (questionIndex / questions.length) * 100;
+            document.getElementById('progress').style.width = `${progress}%`;
+        }
+
+        function displayQuestion() {
+            const questionContainer = document.getElementById('question');
+            questionContainer.classList.remove('active');
+            setTimeout(() => {
+                questionContainer.innerHTML = `<p>${questions[questionIndex].question}</p>`;
+                questionContainer.classList.add('active');
+            }, 500);
+
+            const answersContainer = document.getElementById('answers');
+            answersContainer.innerHTML = '';
+            questions[questionIndex].answers.forEach(answer => {
+                answersContainer.innerHTML += `<button onclick="checkAnswer('${answer === questions[questionIndex].correctAnswer ? 'correct' : 'incorrect'}')">${answer}</button>`;
+            });
+
+            resetTimer();
+        }
+
+        function checkAnswer(answer) {
+            if (answer === 'correct') {
+                score++;
+                document.getElementById('correct-sound').play();
+                alert('Correct!');
+            } else {
+                document.getElementById('wrong-sound').play();
+                alert('Oops! The correct answer is: ' + questions[questionIndex].correctAnswer);
+            }
+
+            questionIndex++;
+            if (questionIndex < questions.length) {
+                displayQuestion();
+            } else {
+                displayResult();
+            }
+        }
+
+        function displayResult() {
+            document.querySelector('.result').style.display = 'block';
+            document.getElementById('score').textContent = score;
+
+            if (score === questions.length) {
+                document.getElementById('finalMessage').textContent = "Congratulations! You answered all questions correctly!";
+                document.getElementById('prize').textContent = "Your prize: Sailor Moon Stickers and cards!";
+            } else if (score >= 3) {
+                document.getElementById('finalMessage').textContent = "Great job! You almost got everything right!";
+                document.getElementById('prize').textContent = "Your prize: Sailor Moon Keychain!";
+            } else {
+                document.getElementById('finalMessage').textContent = "Better luck next time! You can try again.";
+                document.getElementById('prize').textContent = "";
+            }
+        }
+
+        function resetQuiz() {
+            score = 0;
+            questionIndex = 0;
+            document.querySelector('.result').style.display = 'none';
+            displayQuestion();
+        }
+
+        function nextQuestion() {
+            if (questionIndex >= questions.length) {
+                resetQuiz();
+            } else {
+                displayQuestion();
+            }
+        }
+
+        displayQuestion();
+    </script>
+</body>
+</html>
